@@ -1,0 +1,123 @@
+<?php
+  //检查 cookie 中的 passed 变量是否等于 TRUE
+  $passed = $_COOKIE["passed"];
+  $name = $_COOKIE["name"];
+  /*  如果 cookie 中的 passed 变量不等于 TRUE
+      表示尚未登录网站，将用户导向首页 index.html	*/
+  if ($passed != "TRUE")
+  {
+    header("location:index.html");
+    exit();
+	
+  }
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>无标题文档</title>
+	</head>
+
+	<body>
+	<h1 align = "center">违法信息上传</h1>
+	<form align = "center" action="superviseupload.php" method="post" enctype="multipart/form-data">
+	<table align = "center">
+		<tr>
+			<td>
+				<font color="#3333FF">车牌号（无牌车辆）：</font> 
+				<input name="carNum" type="text" size="15">
+			<td>
+		</tr>
+		<tr>
+			<td >
+				<font color="#3333FF">违法内容：</font> 
+				<textarea name="illeageComt" cols="45" rows="4" ></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="divPreview" align = "center">
+					<img id="imgHeadPhoto" src="noperson.jpg" style="width: 160px; height: 170px; border: solid 1px #d2e2e2;"
+						alt="" />
+				</div>
+			<td>
+		</tr>
+		<!--enctype 属性规定在发送到服务器之前应该如何对表单数据进行编码,"multipart/form-data"在使用包含文件上传控件的表单时，必须使用该值。-->
+		<tr>
+			<td>
+				<p align = "center">
+					<input type="file" name="file" onchange="PreviewImage(this,'imgHeadPhoto','divPreview');" size="20" />
+				</p>
+			<td>
+		</tr>
+		<tr>
+			<td>
+				<p align = "center">
+					<input  type="button" value="返回" onclick = "javascript :history.back(-1);"/>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input  type="submit" value="上传"/>
+				</p>
+			<td>
+		</tr>
+	</table>
+	</form>
+	</body>
+	<script type="text/javascript">
+		//js本地图片预览，兼容ie[6-9]、火狐、Chrome17+、Opera11+、Maxthon3
+		function PreviewImage(fileObj, imgPreviewId, divPreviewId) {
+			var allowExtention = ".jpg,.bmp,.gif,.png"; //允许上传文件的后缀名document.getElementById("hfAllowPicSuffix").value;
+			var extention = fileObj.value.substring(fileObj.value.lastIndexOf(".") + 1).toLowerCase();
+			var browserVersion = window.navigator.userAgent.toUpperCase();
+			if (allowExtention.indexOf(extention) > -1) {
+				if (fileObj.files) {//HTML5实现预览，兼容chrome、火狐7+等
+					if (window.FileReader) {
+						var reader = new FileReader();
+						reader.onload = function (e) {
+							document.getElementById(imgPreviewId).setAttribute("src", e.target.result);
+						}
+						reader.readAsDataURL(fileObj.files[0]);
+					} else if (browserVersion.indexOf("SAFARI") > -1) {
+						alert("不支持Safari6.0以下浏览器的图片预览!");
+					}
+				} else if (browserVersion.indexOf("MSIE") > -1) {
+					if (browserVersion.indexOf("MSIE 6") > -1) {//ie6
+						document.getElementById(imgPreviewId).setAttribute("src", fileObj.value);
+					} else {//ie[7-9]
+						fileObj.select();
+						if (browserVersion.indexOf("MSIE 9") > -1)
+							fileObj.blur(); //不加上document.selection.createRange().text在ie9会拒绝访问
+						var newPreview = document.getElementById(divPreviewId + "New");
+						if (newPreview == null) {
+							newPreview = document.createElement("div");
+							newPreview.setAttribute("id", divPreviewId + "New");
+							newPreview.style.width = document.getElementById(imgPreviewId).width + "px";
+							newPreview.style.height = document.getElementById(imgPreviewId).height + "px";
+							newPreview.style.border = "solid 1px #d2e2e2";
+						}
+						newPreview.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src='" + document.selection.createRange().text + "')";
+						var tempDivPreview = document.getElementById(divPreviewId);
+						tempDivPreview.parentNode.insertBefore(newPreview, tempDivPreview);
+						tempDivPreview.style.display = "none";
+					}
+				} else if (browserVersion.indexOf("FIREFOX") > -1) {//firefox
+					var firefoxVersion = parseFloat(browserVersion.toLowerCase().match(/firefox\/([\d.]+)/)[1]);
+					if (firefoxVersion < 7) {//firefox7以下版本
+						document.getElementById(imgPreviewId).setAttribute("src", fileObj.files[0].getAsDataURL());
+					} else {//firefox7.0+                    
+						document.getElementById(imgPreviewId).setAttribute("src", window.URL.createObjectURL(fileObj.files[0]));
+					}
+				} else {
+					document.getElementById(imgPreviewId).setAttribute("src", fileObj.value);
+				}
+			} else {
+				alert("仅支持" + allowExtention + "为后缀名的文件!");
+				fileObj.value = ""; //清空选中文件
+				if (browserVersion.indexOf("MSIE") > -1) {
+					fileObj.select();
+					document.selection.clear();
+				}
+				fileObj.outerHTML = fileObj.outerHTML;
+			}
+			return fileObj.value;    //返回路径
+		}
+	</script>
+</html>

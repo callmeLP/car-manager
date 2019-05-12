@@ -1,0 +1,145 @@
+﻿<?php
+  //检查 cookie 中的 passed 变量是否等于 TRUE
+  $passed = $_COOKIE["passed"];
+  $name = $_COOKIE["name"];
+  /*  如果 cookie 中的 passed 变量不等于 TRUE
+      表示尚未登录网站，将用户导向首页 index.html	*/
+  if ($passed != "TRUE")
+  {
+    header("location:index.html");
+    exit();
+  }
+?>
+<!doctype html>
+<html>
+  <head>
+    <title>加入会员</title>
+	<style>
+		.div0
+		{
+			width: 960px;
+			margin: auto;
+			padding-top: 1px;
+		}
+		.a1
+		{
+			color: #FFF;
+			font-size: 12px;
+			text-decoration: none;
+			float: left;
+			padding-left: 160px;	
+		}
+	</style>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+      function check_data()
+      {
+        if (document.myForm.name.value.length == 0 | document.myForm.name.value.length >10)
+        {
+          alert("您一定要留下真实姓名哦！");
+          return false;
+        }	
+		if (document.myForm.psd.value.length == 0 | document.myForm.psd.value.length >10)
+        {
+          alert("您一定要留下密码哦！");
+          return false;
+        }
+        if (document.myForm.cellphone.value.length != 11)
+        {
+          alert("您的手机号码不正确哦！");
+          return false;
+        }	
+		if (document.myForm.carNum.value.length == 0 | document.myForm.carNum.value.length >10)
+        {
+          alert("您一定要留下真实车牌号码哦！");
+          return false;
+        }
+		if (document.myForm.carType.value.length == 0 | document.myForm.carType.value.length >20)
+        {
+          alert("您一定要留下汽车车型哦！");
+          return false;
+        }
+		if (document.myForm.carColor.value.length == 0 | document.myForm.carColor.value.length >10)
+        {
+          alert("您一定要留下汽车颜色哦！");
+          return false;
+        }
+		
+        myForm.submit();					
+      }
+    </script>		
+  </head>
+  <body>
+	<div class = "div0">
+		<div style = "position: static">
+			<img src="./img/2.jpg" alt="西南交通大学" width="200" height="90" align = "left">
+		</div>
+		<div>
+			<p align="right" style = "font-size: 15px">欢迎登陆系统，<?php echo $name ?>管理员。
+			</p>
+		</div>
+		
+		<div style =  "float: left;  background-color:#006188;  height: 30px;  width: 960px;  line-height: 30px;  margin-top: 30px;">
+			<a class = "a1" href="owner.php">车主列表</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a class = "a1" href="inout.php">进出信息</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a class = "a1" href="illegal.php">违规信息</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a class = "a1" href="logout.php">退出系统</a>
+		</div>
+		<form action="addmember.php" method="post" name="myForm">
+		  <table border="2" align="center" bordercolor="#6666FF">
+			<tr> 
+			  <td colspan="2" bgcolor="#6666FF" align="center"> 
+				<font color="#FFFFFF">请填入下列资料 (标示“*”字段请务必填写)</font>
+			  </td>
+			</tr>
+			<tr bgcolor="#99FF99"> 
+			  <td align="right">*车主姓名：</td>
+			  <td><input name="name" type="text" size="20">
+			  </td>
+			</tr>
+			<tr bgcolor="#99FF99"> 
+			  <td align="right">*移动电话：</td>
+			  <td><input name="cellphone" type="text" size="20"></td>
+			</tr>
+			<tr bgcolor="#99FF99"> 
+			  <td align="right">*密码：</td>
+			  <td><input name="psd" type="text" size="20"></td>
+			</tr>
+			<tr bgcolor="#99FF99"> 
+			  <td align="right">*车牌号码：</td>
+			  <td><input name="carNum" type="text" size="20"></td>
+			</tr>
+			<tr bgcolor="#99FF99"> 
+			  <td align="right">*汽车型号：</td>
+			  <td><input name="carType" type="text" size="20"></td>
+			</tr>
+			<tr bgcolor="#99FF99"> 
+			  <td align="right">*汽车颜色：</td>
+			  <td><input name="carColor" type="text" size="20"></td>
+			</tr>
+			<tr bgcolor="#99FF99"> 
+			  <td align="right">*所属单位：</td>
+			  <td>
+				<select name="department">
+				   <option value ="路北家属区">路北家属区</option>
+				   <option value ="交大花园">交大花园</option>
+				   <option value="新镜家属区">新镜家属区</option>
+				   <option value="交大保卫科">交大保卫科</option>
+				</select>
+			  </td>
+			</tr>
+			<tr bgcolor="#99FF99"> 
+			  <td align="right">备注：</td>
+			  <td><textarea name="comment" cols="45" rows="4" ></textarea></td>
+			</tr>
+			<tr bgcolor="#99FF99"> 
+			  <td align="center" colspan="2"> 
+				<input type="button" value="加入会员" onClick="check_data()">　
+				<input type="reset" value="重新填写">
+			  </td>
+			</tr>
+		  </table>
+		</form>
+	</div>
+  </body>
+</html>

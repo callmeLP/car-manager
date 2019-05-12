@@ -1,0 +1,16 @@
+<?php
+  //检查 cookie 中的 passed 变量是否等于 TRUE
+  $passed = $_COOKIE["passed"];
+  /*  如果 cookie 中的 passed 变量不等于 TRUE
+      表示尚未登录网站，将用户导向首页 index.html	*/
+  if ($passed != "TRUE")
+  {
+    header("location:index.html");
+    exit();
+  }
+?>
+<form action="excelupload.php" method="post" enctype="multipart/form-data">
+    <span>导入Excel表格</span>
+    <input type="file" name="userfile" id="userfile" value="" />
+    <input type="submit" name="submin" id="submin" value="Submit" />
+</form>

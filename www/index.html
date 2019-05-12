@@ -1,0 +1,56 @@
+﻿<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>交大车辆管理系统</title>
+    <script type="text/javascript">
+      function check_data()
+      {
+        if (document.myForm.account.value.length == 0)
+          alert("账号字段不可以空白哦！");
+        else if (document.myForm.password.value.length == 0)
+          alert("密码字段不可以空白哦！");
+        else 
+          myForm.submit();
+      }
+    </script>
+  </head>
+  <body bgcolor = #21415a>
+
+    <p align="center"><img src="./img/1.jpg" alt="西南交通大学" width="600" height="270"></p>  
+    <p ><center><font color="#D5D5D5">欢迎使用交大车辆管理系统，请输入管理员帐号与密码登陆系统。<br>如若忘记密码或添加管理员请联系超管。</font> </center></p>
+    <form action="checkpwd.php" method="post" name="myForm">
+      <table width="40%" align="center">
+		<tr>
+	  	  <td align="center"> 
+		    <font color="#FFFFFF">登陆选择：</font> 
+            <select name="author">
+			  <option value="admin">管理员</option>
+			  <option value="user">用户</option>
+			  <option value="punish">监管</option>
+			</select>
+          </td>
+		</tr>
+        <tr> 
+          <td align="center"> 
+            <font color="#FFFFFF">账号：</font> 
+            <input name="account" type="text" size="15">
+          </td>
+        </tr>
+        <tr> 
+          <td align="center"> 
+            <font color="#FFFFFF">密码：</font> 
+            <input name="password" type="password" size="15">
+          </td>
+        </tr>
+        <tr>
+          <td align="center"> 
+            <input type="button" value="登录" onClick="check_data()">      　 
+            <input type="reset" value="重新填写">
+          </td>
+        </tr>
+      </table>
+    </form>
+    <p align="center">
+  </body>
+</html>
